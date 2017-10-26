@@ -1,5 +1,5 @@
 extension String {
     func cChar() -> CChar {
-        return cStringUsingEncoding(NSUTF8StringEncoding)!.first!
+        return cString(using: String.Encoding.utf8)!.first!
     }
 }

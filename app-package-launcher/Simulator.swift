@@ -1,32 +1,34 @@
+import Foundation
+
 struct Simulator {
     let identifierString: String
     var name: String { return identifierString.truncateUuid() }
 
     static func allSimulators() -> [Simulator] {
-        return Shell.run("xcrun instruments -s")
+        return Shell.run(command: "xcrun instruments -s devices")
             .filterSimulators()
-            .sort { $0 > $1 }
+            .sorted { $0 > $1 }
             .map { Simulator(identifierString: $0) }
     }
 
-    static func simulatorsMatchingIdentifier(identifier: String) -> [Simulator] {
+    static func simulatorsMatchingIdentifier(_ identifier: String) -> [Simulator] {
         let all = allSimulators()
         guard identifier.characters.count > 0 else { return all }
         return all.filter { simulator in
-            return simulator.identifierString.containsString(identifier)
+            return simulator.identifierString.contains(identifier)
         }
     }
 }
 
-extension CollectionType where Generator.Element == String {
+extension Collection where Iterator.Element == String {
     func filterSimulators() -> [String] {
-        return filter { $0.containsString("iPhone") || $0.containsString("iPad") }
+        return filter { $0.contains("iPhone") || $0.contains("iPad") }
     }
 }
 
 extension String {
     func truncateUuid() -> String {
-        let endMinus38 = endIndex.advancedBy(-38)
-        return substringToIndex(endMinus38)
+        let result = components(separatedBy: " [")
+        return result[0]
     }
 }

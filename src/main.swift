@@ -1,4 +1,4 @@
-let arguments = Arguments(name: "CommandLine", parent: nil)
+let arguments = Arguments(name: "CommandLine", parent: nil)!
 let options = arguments.parse()
 
 if arguments.displayHelp {
@@ -17,7 +17,7 @@ if arguments.displayHelp {
             outputPath: arguments.outputPath,
             packageLauncherPath: arguments.packageLauncherPath,
             shouldUninstall: arguments.shouldUninstallApp,
-            fileManager: NSFileManager.defaultManager()
+            fileManager: FileManager.default
         )
     } catch let error as PackagingError {
         print(error.message)

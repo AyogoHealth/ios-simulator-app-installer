@@ -3,26 +3,26 @@ import Foundation
 
 class Installer {
 
-    static func installAndRunApp(packagedApp: PackagedApp, simulator: Simulator) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+    static func installAndRunApp(_ packagedApp: PackagedApp, simulator: Simulator) {
+        DispatchQueue.global().async {
             shutDownCurrentSimulatorSessions()
 
-            system("xcrun instruments -w \"\(simulator.identifierString)\"")
+            _ = Shell.run(command: "xcrun instruments -w \"\(simulator.identifierString)\"")
 
             if Parameters.shouldUninstallFirst() {
-                system("xcrun simctl uninstall booted \(packagedApp.bundleIdentifier)")
+                _ = Shell.run(command: "xcrun simctl uninstall booted \(packagedApp.bundleIdentifier)")
             }
 
-            system("xcrun simctl install booted \"\(packagedApp.bundlePath)\"")
-            system("xcrun simctl launch booted \(packagedApp.bundleIdentifier)")
+            _ = Shell.run(command: "xcrun simctl install booted \"\(packagedApp.bundlePath)\"")
+            _ = Shell.run(command: "xcrun simctl launch booted \(packagedApp.bundleIdentifier)")
 
-            NSApplication.sharedApplication().terminate(nil)
+            NSApplication.shared().terminate(nil)
         }
     }
 
     static func shutDownCurrentSimulatorSessions() {
-        system("killall \"iOS Simulator\"")
-        system("xcrun simctl shutdown booted")
+        _ = Shell.run(command: "killall \"Simulator\"")
+        _ = Shell.run(command: "xcrun simctl shutdown booted")
     }
 
 }

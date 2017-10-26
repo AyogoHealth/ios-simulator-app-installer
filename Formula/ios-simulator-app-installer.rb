@@ -1,10 +1,9 @@
 class IosSimulatorAppInstaller < Formula
-  homepage "https://github.com/stepanhruda/ios-simulator-app-installer"
-  url "https://github.com/stepanhruda/ios-simulator-app-installer.git",
-    :revision => "def460846f6065e8d0bbdf8ad9bd5cd01ca25e0c"
-  version "0.2.1"
+  homepage "https://github.com/tcurdt/ios-simulator-app-installer"
+  url "https://github.com/tcurdt/ios-simulator-app-installer.git", :tag => "0.3.0"
+  version "0.3.0"
 
-  depends_on :xcode => "7"
+  depends_on :xcode => "8"
   depends_on :macos => :yosemite
 
   def install

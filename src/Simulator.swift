@@ -2,31 +2,31 @@ struct Simulator {
     let identifierString: String
 
     static func allSimulators() -> [Simulator] {
-        return Shell.run("xcrun instruments -s")
+        return Shell.run(command: "xcrun instruments -s")
             .filterSimulators()
             .map { $0.truncateUuid() }
-            .sort { $0 > $1 }
+            .sorted { $0 > $1 }
             .map { Simulator(identifierString: $0) }
     }
 
-    static func simulatorsMatchingIdentifier(identifier: String) -> [Simulator] {
+    static func simulatorsMatchingIdentifier(_ identifier: String) -> [Simulator] {
         let all = allSimulators()
         guard identifier.characters.count > 0 else { return all }
         return all.filter { simulator in
-            return simulator.identifierString.containsString(identifier)
+            return simulator.identifierString.contains(identifier)
         }
     }
 }
 
-extension CollectionType where Generator.Element == String {
+extension Collection where Iterator.Element == String {
     func filterSimulators() -> [String] {
-        return filter { $0.containsString("iPhone") || $0.containsString("iPad") }
+        return filter { $0.contains("iPhone") || $0.contains("iPad") }
     }
 }
 
 extension String {
     func truncateUuid() -> String {
-        let endMinus38 = endIndex.advancedBy(-38)
-        return substringToIndex(endMinus38)
+        let endMinus38 = characters.index(endIndex, offsetBy: -38)
+        return substring(to: endMinus38)
     }
 }

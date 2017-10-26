@@ -4,7 +4,7 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    func applicationDidFinishLaunching(notification: NSNotification) {
+    func applicationDidFinishLaunching(_ notification: Notification) {
         do {
             let packagedApp = try PackagedApp(bundleName: "Packaged")
 
@@ -37,7 +37,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     var simulatorSelectionController: SimulatorSelectionWindowController?
 
-    func letUserSelectSimulatorFrom(simulators: [Simulator], completion: Simulator -> Void) {
+    func letUserSelectSimulatorFrom(_ simulators: [Simulator], completion: @escaping (Simulator) -> Void) {
         simulatorSelectionController = SimulatorSelectionWindowController.controller(simulators) {
             [unowned self] selectedSimulator in
             completion(selectedSimulator)
@@ -46,12 +46,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         simulatorSelectionController?.showWindow(nil)
     }
 
-    func terminateWithError(error: NSError) {
+    func terminateWithError(_ error: NSError) {
         NSAlert(error: error).runModal()
-        NSApplication.sharedApplication().terminate(nil)
+        NSApplication.shared().terminate(nil)
     }
 
-    func noSuitableDeviceFoundForStringError(targetDevice: String) -> NSError {
+    func noSuitableDeviceFoundForStringError(_ targetDevice: String) -> NSError {
         return  NSError(
             domain: "com.stepanhruda.ios-simulator-app-installer",
             code: 2,

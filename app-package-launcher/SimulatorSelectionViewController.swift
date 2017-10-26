@@ -5,10 +5,10 @@ class SimulatorSelectionWindowController: NSWindowController {
     
     @IBOutlet weak var selectionPopUpButton: NSPopUpButton!
     
-    var onSelected: (Simulator -> Void)!
+    var onSelected: ((Simulator) -> Void)!
     var simulators: [Simulator]!
     
-    class func controller(simulators: [Simulator], onSelected: Simulator -> Void) -> SimulatorSelectionWindowController {
+    class func controller(_ simulators: [Simulator], onSelected: @escaping (Simulator) -> Void) -> SimulatorSelectionWindowController {
         let controller = SimulatorSelectionWindowController(windowNibName: "SimulatorSelection")
         controller.simulators = simulators
         controller.onSelected = onSelected
@@ -20,16 +20,16 @@ class SimulatorSelectionWindowController: NSWindowController {
         
         selectionPopUpButton.removeAllItems()
         selectionPopUpButton.menu = NSMenu(title: "Simulators")
-        selectionPopUpButton.addItemsWithTitles(titles)
+        selectionPopUpButton.addItems(withTitles: titles)
     }
     
-    @IBAction func launchTapped(sender: NSButton) {
+    @IBAction func launchTapped(_ sender: NSButton) {
         close()
         onSelected(simulators[selectionPopUpButton.indexOfSelectedItem])
     }
     
-    @IBAction func cancelTapped(sender: NSButton) {
-        NSApplication.sharedApplication().terminate(sender)
+    @IBAction func cancelTapped(_ sender: NSButton) {
+        NSApplication.shared().terminate(sender)
     }
     
 }
