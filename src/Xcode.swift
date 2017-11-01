@@ -1,6 +1,6 @@
 class Xcode {
 
-    static let requiredVersion = "Xcode 8"
+    static let requiredVersion = "Xcode"
 
     static func isRequiredVersionInstalled() -> Bool {
         guard let currentVersion = Xcode.currentVersion() else { return false }

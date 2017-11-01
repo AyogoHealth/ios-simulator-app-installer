@@ -11,7 +11,7 @@ struct Simulator {
 
     static func simulatorsMatchingIdentifier(_ identifier: String) -> [Simulator] {
         let all = allSimulators()
-        guard identifier.characters.count > 0 else { return all }
+        guard identifier.count > 0 else { return all }
         return all.filter { simulator in
             return simulator.identifierString.contains(identifier)
         }
@@ -26,7 +26,7 @@ extension Collection where Iterator.Element == String {
 
 extension String {
     func truncateUuid() -> String {
-        let endMinus38 = characters.index(endIndex, offsetBy: -38)
-        return substring(to: endMinus38)
+        let endMinus38 = index(endIndex, offsetBy: -38)
+        return String(self[..<endMinus38])
     }
 }
