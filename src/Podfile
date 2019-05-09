@@ -1,3 +1,6 @@
-xcodeproj 'ios-simulator-app-installer'
+project 'ios-simulator-app-installer'
+platform :osx, '10.10'
 
-pod 'GBCli', :git => 'git@github.com:stepanhruda/GBCli'
+target 'ios-simulator-app-installer' do
+    pod 'GBCli', :git => 'git@github.com:stepanhruda/GBCli'
+end

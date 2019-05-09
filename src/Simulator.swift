@@ -26,7 +26,7 @@ extension Collection where Iterator.Element == String {
 
 extension String {
     func truncateUuid() -> String {
-        let endMinus38 = index(endIndex, offsetBy: -38)
-        return String(self[..<endMinus38])
+        let result = components(separatedBy: " [")
+        return result[0]
     }
 }

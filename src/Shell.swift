@@ -32,7 +32,7 @@ class Shell {
 
         task.waitUntilExit()
 
-        let outputString = NSString(data: buffer as Data, encoding: String.Encoding.utf8.rawValue) as? String
+        let outputString = String(data: buffer as Data, encoding: String.Encoding.utf8)
         return outputString?.components(separatedBy: "\n") ?? []
     }
 }
@@ -148,7 +148,7 @@ final class ShellTask {
 
     func waitUntilExit() {
         while !self.hasCompleted() {
-            RunLoop.current.run(mode: RunLoopMode.defaultRunLoopMode, before: Date.distantFuture)
+            RunLoop.current.run(mode: .default, before: Date.distantFuture)
         }
     }
 

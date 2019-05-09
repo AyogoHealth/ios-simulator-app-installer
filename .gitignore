@@ -1,2 +1,5 @@
 *.xccheckout
 xcuserdata/
+src/ios-simulator-app-installer.xcworkspace
+ios-simulator-app-installer
+src/Pods/
