@@ -1,6 +1,25 @@
 import AppKit
 import Cocoa
 
+enum SimulatorDeviceError: LocalizedError {
+    case noSuitableDevice(target: String)
+    
+    public static var errorDomain: String {
+        return "com.stepanhruda.ios-simulator-app-installer"
+    }
+    
+    public var errorCode: Int {
+        return 2
+    }
+    
+    public var errorDescription: String? {
+        switch self {
+        case .noSuitableDevice(let target):
+            return "No simulator matching \"\(target)\" was found."
+        }
+    }
+}
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
@@ -25,11 +44,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
             default:
 
-                terminateWithError(noSuitableDeviceFoundForStringError(simulatorIdentifierProvidedOnCompileTime))
+                terminateWithError(SimulatorDeviceError.noSuitableDevice(target: simulatorIdentifierProvidedOnCompileTime))
             }
         }
         catch let error as PackagedAppError {
-            terminateWithError(error.asNSError)
+            terminateWithError(error)
         } catch {
             fatalError("error handling failure")
         }
@@ -46,15 +65,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         simulatorSelectionController?.showWindow(nil)
     }
 
-    func terminateWithError(_ error: NSError) {
+    func terminateWithError(_ error: Error) {
         NSAlert(error: error).runModal()
-        NSApplication.shared().terminate(nil)
-    }
-
-    func noSuitableDeviceFoundForStringError(_ targetDevice: String) -> NSError {
-        return  NSError(
-            domain: "com.stepanhruda.ios-simulator-app-installer",
-            code: 2,
-            userInfo: [NSLocalizedDescriptionKey as NSString: "No simulator matching \"\(targetDevice)\" was found."])
+        NSApplication.shared.terminate(nil)
     }
 }

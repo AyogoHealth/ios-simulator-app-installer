@@ -29,7 +29,7 @@ class SimulatorSelectionWindowController: NSWindowController {
     }
     
     @IBAction func cancelTapped(_ sender: NSButton) {
-        NSApplication.shared().terminate(sender)
+        NSApplication.shared.terminate(sender)
     }
     
 }

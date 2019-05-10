@@ -1,22 +1,27 @@
 import Foundation
 
-enum PackagedAppError: Error {
+enum PackagedAppError: LocalizedError {
     case bundleNotFound
     case infoPlistNotFound
     case bundleIdentifierNotFound
-
-    var asNSError: NSError {
-        let description: String
+    
+    public static var errorDomain: String {
+        return "com.stepanhruda.ios-simulator-app-installer"
+    }
+    
+    public var errorCode: Int {
+        return 1
+    }
+    
+    public var errorDescription: String? {
         switch self {
-        case .bundleNotFound: description = "App bundle couldn't be found, this installer was packaged incorrectly."
-        case .infoPlistNotFound: description = "Info.plist not found in packaged app, this installer was packaged incorrectly."
-        case .bundleIdentifierNotFound: description = "Bundle identifier not found in packaged app's Info.plist, this installer was packaged incorrectly."
+        case .bundleNotFound:
+            return NSLocalizedString("App bundle couldn't be found, this installer was packaged incorrectly.", comment: "PackagedAppError bundleNotFound case")
+        case .infoPlistNotFound:
+            return NSLocalizedString("Info.plist not found in packaged app, this installer was packaged incorrectly.", comment: "PackagedAppError infoPlistNotFound case")
+        case .bundleIdentifierNotFound:
+            return NSLocalizedString("Bundle identifier not found in packaged app's Info.plist, this installer was packaged incorrectly.", comment: "PackagedAppError bundleIdentifierNotFound case")
         }
-
-        return  NSError(
-            domain: "com.stepanhruda.ios-simulator-app-installer",
-            code: 1,
-            userInfo: [NSLocalizedDescriptionKey as NSString: description])
     }
 }
 
@@ -44,6 +49,6 @@ struct PackagedApp {
     }
 
     static func bundleIdentifierFromInfoPlist(_ infoPlist: NSDictionary) -> String? {
-        return infoPlist.object(forKey: kCFBundleIdentifierKey) as? String
+        return infoPlist.object(forKey: kCFBundleIdentifierKey as String) as? String
     }
 }

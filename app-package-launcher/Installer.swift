@@ -16,7 +16,7 @@ class Installer {
             _ = Shell.run(command: "xcrun simctl install booted \"\(packagedApp.bundlePath)\"")
             _ = Shell.run(command: "xcrun simctl launch booted \(packagedApp.bundleIdentifier)")
 
-            NSApplication.shared().terminate(nil)
+            NSApplication.shared.terminate(nil)
         }
     }
 

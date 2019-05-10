@@ -13,7 +13,7 @@ struct Simulator {
 
     static func simulatorsMatchingIdentifier(_ identifier: String) -> [Simulator] {
         let all = allSimulators()
-        guard identifier.characters.count > 0 else { return all }
+        guard identifier.count > 0 else { return all }
         return all.filter { simulator in
             return simulator.identifierString.contains(identifier)
         }
